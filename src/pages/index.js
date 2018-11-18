@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
-import Form from '../components/Form'
+import Form from '../components/form'
 import './index.css'
+import { setConfig } from 'react-hot-loader'
+
+setConfig({ pureSFC: true })
+
 export default () => {
   const [todos, setTodos] = useState([])
 
@@ -17,7 +21,7 @@ export default () => {
     )
 
   return (
-    <div className="app">
+    <div className="App">
       <Form
         onSubmit={text => setTodos([{ text, complete: false }, ...todos])}
       />
