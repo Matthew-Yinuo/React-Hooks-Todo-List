@@ -1,19 +1,40 @@
-import React from 'react'
-import { Link } from 'gatsby'
+import React, { useState } from 'react'
+import Form from '../components/Form'
+import './index.css'
+export default () => {
+  const [todos, setTodos] = useState([])
 
-import Layout from '../components/layout'
-import Image from '../components/image'
+  const toggleComplete = i =>
+    setTodos(
+      todos.map((todo, k) =>
+        k === i
+          ? {
+              ...todo,
+              complete: !todo.complete,
+            }
+          : todo
+      )
+    )
 
-const IndexPage = () => (
-  <Layout>
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: '300px', marginBottom: '1.45rem' }}>
-      <Image />
+  return (
+    <div className="app">
+      <Form
+        onSubmit={text => setTodos([{ text, complete: false }, ...todos])}
+      />
+      <div>
+        {todos.map(({ text, complete }, i) => (
+          <div
+            key={text}
+            onClick={() => toggleComplete(i)}
+            style={{
+              textDecoration: complete ? 'line-through' : '',
+            }}
+          >
+            {text}
+          </div>
+        ))}
+      </div>
+      <button onClick={() => setTodos([])}>reset</button>
     </div>
-    <Link to="/page-2/">Go to page 2</Link>
-  </Layout>
-)
-
-export default IndexPage
+  )
+}
